@@ -1,5 +1,29 @@
-# This script should merge all files from a given sample (the sample id is
-# provided in the third argument ($3)) into a single file, which should be
-# stored in the output directory specified by the second argument ($2).
-#
-# The directory containing the samples is indicated by the first argument ($1).
+#!/bin/bash
+
+if [ $# -lt 3 ]; then
+
+    echo "At least 3 arguments are needed"
+    echo "Usage: $0 <Sample_id> <out_directory> <samples_directory>"
+    exit 1
+fi
+
+
+SAMPLES_DIR=$1
+OUT_DIR=$2
+SAMPLE_ID=$3
+
+mkdir -p $OUT_DIR
+
+SAMPLES=$( find ./data -type f| grep $SAMPLE_ID )
+
+if [ -f "$OUT_DIR/${SAMPLE_ID}.fastq.gz" ]; then
+
+    echo "Files merged already"
+
+    else
+
+        echo "Merging files $SAMPLES"
+
+        cat $SAMPLES > "$OUT_DIR/${SAMPLE_ID}.fastq.gz"
+
+fi
